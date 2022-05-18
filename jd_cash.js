@@ -120,10 +120,11 @@ async function jdCash() {
 }
 
 async function appindex(info=false) {
-  let functionId = "cash_homePage"
-  let body = "%7B%7D"
+  let functionId = `cash_homePage`
+  let body = {}
   let uuid = randomString(16)
-  let sign = await getSign(functionId, decodeURIComponent(body), uuid)
+  let sign = await getSign(functionId, body, uuid)
+  console.log(sign)
   let url = `${JD_API_HOST}?functionId=${functionId}&build=167774&client=apple&clientVersion=10.1.0&uuid=${uuid}&${sign}`
   return new Promise((resolve) => {
     $.post(apptaskUrl(url, body), async (err, resp, data) => {
@@ -289,9 +290,9 @@ function helpFriend(helpInfo) {
 
 async function appdoTask(type,taskInfo) {
   let functionId = 'cash_doTask'
-  let body = escape(JSON.stringify({"type":type,"taskInfo":taskInfo}))
+  let body = {"type":type,"taskInfo":taskInfo}
   let uuid = randomString(16)
-  let sign = await getSign(functionId, decodeURIComponent(body), uuid)
+  let sign = await getSign(functionId, body, uuid)
   let url = `${JD_API_HOST}?functionId=${functionId}&build=167774&client=apple&clientVersion=10.1.0&uuid=${uuid}&${sign}`
   return new Promise((resolve) => {
     $.post(apptaskUrl(url, body), (err, resp, data) => {
@@ -430,18 +431,17 @@ function exchange2(node) {
     })
   })
 }
-unction getSign(functionId, body) {
+function getSign(functionid, body) {
 	//"client":"android",
     //"clientVersion":"9.2.2"
   return new Promise(async resolve => {
     let data = {
-      functionId,
+      functionid,
       body: JSON.stringify(body),
-
     }
-
+	console.log(JSON.stringify(data))
     let options = {
-      url: `http://127.0.0.1:59090/unidbg/jdsign`,
+      url: `http://172.17.0.1:59090/unidbg/jdsign`,
       body: JSON.stringify(data),
       headers: {
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
