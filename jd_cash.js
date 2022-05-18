@@ -121,7 +121,7 @@ async function jdCash() {
 
 async function appindex(info=false) {
   let functionId = `cash_homePage`
-  let body = {}
+  let body = `{}`
   let uuid = randomString(16)
   let sign = await getSign(functionId, body, uuid)
   console.log(sign)
@@ -437,15 +437,17 @@ function getSign(functionid, body) {
   return new Promise(async resolve => {
     let data = {
       functionid,
-      body: JSON.stringify(body),
+      body,
     }
 	console.log(JSON.stringify(data))
+	
     let options = {
-      url: `http://172.17.0.1:59090/unidbg/jdsign`,
+      url: `http://172.17.0.1:59090/unidbg/jdsignj`,
       body: JSON.stringify(data),
       headers: {
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-      },
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88",
+        "Content-Type": "application/json",
+	  },
       timeout: 30 * 1000
     }
     $.post(options, (err, resp, data) => {
@@ -464,6 +466,7 @@ function getSign(functionid, body) {
     })
   })
 }
+
 function randomString(e) {
   e = e || 32;
   let t = "abcdefghijklmnopqrstuvwxyz0123456789", a = t.length, n = "";
