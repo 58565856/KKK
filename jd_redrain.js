@@ -1,13 +1,11 @@
 /*
 整点京豆雨
-
-甘露殿-666
-
-使用前自行设定整点京豆雨环境变量
-export jd_redrain_url="https://gitee.com/msewb/update/raw/master/redrain.json"
-
-更新时间：2022-3-31
+更新时间：2022-1-24
 脚本兼容: Quantumult X, Surge, Loon, JSBox, Node.js
+by：msechen
+github:https://github.com/msechen/jdrain
+频道:https://t.me/jdredrain
+交流群组：https://t.me/+xfWwiMAFonwzZDFl
 ==============Quantumult X==============
 [task_local]
 #整点京豆雨
@@ -47,10 +45,10 @@ if ($.isNode()) {
     return;
   }
   if (!jd_redrain_activityId) {
-    $.log(`\n甘露殿【666】提醒你:本地红包雨配置获取错误，尝试从远程读取配置\n`);
+    $.log(`\n甘露殿【https://t.me/jdredrain】提醒你:本地红包雨配置获取错误，尝试从远程读取配置\n`);
     await $.wait(1000);
     if (!jd_redrain_url) {
-      $.log(`\n甘露殿【666】提醒你:今日龙王🐲出差，天气晴朗☀️，改日再来～\n`);
+      $.log(`\n甘露殿【https://t.me/jdredrain】提醒你:今日龙王🐲出差，天气晴朗☀️，改日再来～\n`);
       return;
     }    
     let RedRainIds = await getRedRainIds(jd_redrain_url);
@@ -59,12 +57,12 @@ if ($.isNode()) {
     }
   }
   if (!jd_redrain_activityId) {
-    $.log(`\n甘露殿【666】提醒你:今日龙王🐲出差，天气晴朗☀️，改日再来～\n`);
+    $.log(`\n甘露殿【https://t.me/jdredrain】提醒你:今日龙王🐲出差，天气晴朗☀️，改日再来～\n`);
     return;
   }
   let codeList = jd_redrain_activityId.split("@");
   let hour = (new Date().getUTCHours() + 8) % 24;
-  console.log(`\n甘露殿【666】提醒你:龙王就位: ${codeList}\n\n准备领取${hour}点京豆雨\n`);
+  console.log(`\n甘露殿【https://t.me/jdredrain】提醒你:龙王就位: ${codeList}\n\n准备领取${hour}点京豆雨\n`);
   for (let codeItem of codeList) {
     let ids = {};
     for (let i = 0; i < 24; i++) {
@@ -74,11 +72,11 @@ if ($.isNode()) {
       $.activityId = ids[hour];
       $.log(`\nRRA: ${codeItem}`);
     } else {
-      $.log(`\n甘露殿【666】提醒你:无法从本地读取配置，请检查运行时间\n`);
+      $.log(`\n甘露殿【https://t.me/jdredrain】提醒你:无法从本地读取配置，请检查运行时间\n`);
       return;
     }
     if (!/^RRA/.test($.activityId)) {
-      console.log(`\n甘露殿【666】提醒你:RRA: "${$.activityId}"不符合规则\n`);
+      console.log(`\n甘露殿【https://t.me/jdredrain】提醒你:RRA: "${$.activityId}"不符合规则\n`);
       continue;
     }
     for (let i = 0; i < 5; i++) {
@@ -103,7 +101,7 @@ if ($.isNode()) {
     }
   }
   if (allMessage) {
-    if ($.isNode()) await notify.sendNotify(`${$.name}`, `${allMessage}\n甘露殿【666】`);
+    if ($.isNode()) await notify.sendNotify(`${$.name}`, `${allMessage}`);
     $.msg($.name, '', allMessage);
   }
 })()
@@ -177,10 +175,10 @@ function doInteractiveAssignment(encryptProjectId, encryptAssignmentId) {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
-            console.log(data);
             if (data.subCode == "0") {
-              console.log(`${data.rewardsInfo.successRewards[3][0].quantity}京豆`);
-              allMessage += `京东账号${$.index}${$.nickName || $.UserName}\n领取成功，获得【${data.rewardsInfo.successRewards[3][0].quantity}】京豆${$.index !== cookiesArr.length ? '\n\n' : ''}`;
+              //console.log(`${data.rewardsInfo.successRewards[3][0].rewardName}`);
+              message += `领取成功，获得 ${data.rewardsInfo.successRewards[3][0].rewardName}`
+              allMessage += `京东账号${$.index}${$.nickName || $.UserName}\n领取成功，获得 ${data.rewardsInfo.successRewards[3][0].rewardName}${$.index !== cookiesArr.length ? '\n\n' : ''}`;
             } else {
               console.log(data);
             }
