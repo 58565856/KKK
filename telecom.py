@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+
+'''
+new Env('电信签到任务');
+'''
 import re
 import time
 import base64
